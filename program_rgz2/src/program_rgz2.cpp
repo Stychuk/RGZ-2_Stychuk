@@ -7,9 +7,25 @@
 //============================================================================
 
 #include <iostream>
+
 using namespace std;
 
 int main() {
-	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-	return 0;
+    int size, length;
+    cout << "Введіть кількість рядків: ";
+    cin >> size;
+    cin.ignore();  // очищення символу нового рядка з буфера
+
+    string* strings = new string[size];
+    cout << "Введіть рядки:" << endl;
+    for (int i = 0; i < size; ++i) {
+        getline(cin, strings[i]);
+    }
+
+    cout << "Введіть довжину рядка: ";
+    cin >> length;
+
+    delete[] strings;
+
+    return 0;
 }
