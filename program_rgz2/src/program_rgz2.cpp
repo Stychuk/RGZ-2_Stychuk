@@ -7,41 +7,53 @@
 //============================================================================
 
 #include <iostream>
-#include <unordered_map>
+#include <map>
+#include <string>
 
 using namespace std;
 
-string shortenString(string str, int length) {
+// Функція для скорочення рядка до заданої довжини
+string shortenString(const string& str, int length) {
+    if (length < 2) {
+        cout << "Неможливо скоротити рядок до довжини менше 2" << endl;
+        return str;
+    }
     if (str.length() <= length) {
         return str;
-    } else {
-        return str.substr(0, length - 3) + "...";
     }
+    // кількість крапок для скорочення
+    string dots = "...";
+    if (length == 3) {
+        dots = "..";
+    } else if (length == 2) {
+        dots = ".";
+    }
+    // повернення скороченого рядка
+    return str.substr(0, length - dots.length()) + dots;
 }
 
 int main() {
+    // map для зберігання унікальних скорочених рядків
+    map<string, int> strings;
     int size, length;
     cout << "Введіть кількість рядків: ";
     cin >> size;
-    cin.ignore();  // очищення символу нового рядка з буфера
-
-    string* strings = new string[size];
-    cout << "Введіть рядки:" << endl;
-    for (int i = 0; i < size; ++i) {
-        getline(cin, strings[i]);
-    }
-
-    cout << "Введіть довжину рядка: ";
+    cout << "Введіть довжину рядка для скорочення: ";
     cin >> length;
-
-    string* shortenedStrings = new string[size];
-
     for (int i = 0; i < size; ++i) {
-            shortenedStrings[i] = shortenString(strings[i], length);
+        string str;
+        cout << "Введіть рядок: ";
+        cin >> str;
+        // скорочення рядка
+        string j = shortenString(str, length);
+        // якщо скорочений рядок вже існує, додаємо до нього номер
+        if (strings.count(j) > 0) {
+            strings[j]++;
+            j += to_string(strings[j]);
+        } else {
+            strings[j] = 1;
         }
-
-    delete[] strings;
-    delete[] shortenedStrings;
+        cout << "Скорочений рядок: " << j << endl;
 
     return 0;
 }
