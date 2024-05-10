@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// Функція для скорочення рядка до заданої довжини
 string shortenString(string str, int length) {
     if (str.length() <= length) {
         return str;
@@ -19,13 +20,34 @@ string shortenString(string str, int length) {
     }
 }
 
+// Функція для скорочення всіх рядків у масиві до заданої довжини
+string* shortenStrings(string* strings, int size, int length) {
+    unordered_map<string, int> stringCount; // хешмапа для збереження кількості зустрічей кожного рядка
+    string* shortenedStrings = new string[size]; // масив для збереження скорочених рядків
+
+    for (int i = 0; i < size; ++i) {
+    	// перевіряємо, чи цей рядок ще не зустрічався
+        if (stringCount.find(strings[i]) == stringCount.end()) {
+            stringCount[strings[i]] = 1;
+            shortenedStrings[i] = shortenString(strings[i], length);
+        } else { // якщо рядок вже зустрічався, додаємо до нього номер зустрічі
+            string newStr = strings[i] + to_string(stringCount[strings[i]]);
+            stringCount[strings[i]]++;
+            shortenedStrings[i] = shortenString(newStr, length);
+        }
+    }
+
+    return shortenedStrings;
+}
+
 int main() {
     int size, length;
     cout << "Введіть кількість рядків: ";
     cin >> size;
     cin.ignore();  // очищення символу нового рядка з буфера
 
-    string* strings = new string[size];
+    string* strings = new string[size]; // масив для зберігання рядків
+
     cout << "Введіть рядки:" << endl;
     for (int i = 0; i < size; ++i) {
         getline(cin, strings[i]);
@@ -34,11 +56,7 @@ int main() {
     cout << "Введіть довжину рядка: ";
     cin >> length;
 
-    string* shortenedStrings = new string[size];
-
-    for (int i = 0; i < size; ++i) {
-    	shortenedStrings[i] = shortenString(strings[i], length);
-    }
+    string* shortenedStrings = shortenStrings(strings, size, length); // виклик функції для скорочення рядків
 
     delete[] strings;
     delete[] shortenedStrings;
