@@ -7,65 +7,53 @@
 //============================================================================
 
 #include <iostream>
-#include <unordered_map>
+#include <map>
+#include <string>
 
 using namespace std;
 
 // Функція для скорочення рядка до заданої довжини
-string shortenString(string str, int length) {
+string shortenString(const string& str, int length) {
+    if (length < 2) {
+        cout << "Неможливо скоротити рядок до довжини менше 2" << endl;
+        return str;
+    }
     if (str.length() <= length) {
         return str;
-    } else {
-        return str.substr(0, length - 3) + "...";
     }
-}
-
-// Функція для скорочення всіх рядків у масиві до заданої довжини
-string* shortenStrings(string* strings, int size, int length) {
-    unordered_map<string, int> stringCount; // хешмапа для збереження кількості зустрічей кожного рядка
-    string* shortenedStrings = new string[size]; // масив для збереження скорочених рядків
-
-    for (int i = 0; i < size; ++i) {
-    	// перевіряємо, чи цей рядок ще не зустрічався
-        if (stringCount.find(strings[i]) == stringCount.end()) {
-            stringCount[strings[i]] = 1;
-            shortenedStrings[i] = shortenString(strings[i], length);
-        } else { // якщо рядок вже зустрічався, додаємо до нього номер зустрічі
-            string newStr = strings[i] + to_string(stringCount[strings[i]]);
-            stringCount[strings[i]]++;
-            shortenedStrings[i] = shortenString(newStr, length);
-        }
+    // кількість крапок для скорочення
+    string dots = "...";
+    if (length == 3) {
+        dots = "..";
+    } else if (length == 2) {
+        dots = ".";
     }
-
-    return shortenedStrings;
+    // повернення скороченого рядка
+    return str.substr(0, length - dots.length()) + dots;
 }
 
 int main() {
+    // map для зберігання унікальних скорочених рядків
+    map<string, int> strings;
     int size, length;
     cout << "Введіть кількість рядків: ";
     cin >> size;
-    cin.ignore();  // очищення символу нового рядка з буфера
-
-    string* strings = new string[size]; // масив для зберігання рядків
-
-    cout << "Введіть рядки:" << endl;
-    for (int i = 0; i < size; ++i) {
-        getline(cin, strings[i]);
-    }
-
-    cout << "Введіть довжину рядка: ";
+    cout << "Введіть довжину рядка для скорочення: ";
     cin >> length;
-
-    string* shortenedStrings = shortenStrings(strings, size, length); // виклик функції для скорочення рядків
-
-    // виведення скорочених рядків у консоль
-    cout << "Скорочені рядки:" << endl;
     for (int i = 0; i < size; ++i) {
-        cout << "Рядок " << i + 1 << ": " << shortenedStrings[i] << endl;
+        string str;
+        cout << "Введіть рядок: ";
+        cin >> str;
+        // скорочення рядка
+        string j = shortenString(str, length);
+        // якщо скорочений рядок вже існує, додаємо до нього номер
+        if (strings.count(j) > 0) {
+            strings[j]++;
+            j += to_string(strings[j]);
+        } else {
+            strings[j] = 1;
+        }
+        cout << "Скорочений рядок: " << j << endl;
     }
-
-    delete[] strings;
-    delete[] shortenedStrings;
-
     return 0;
 }
