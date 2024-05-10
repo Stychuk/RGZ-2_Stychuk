@@ -54,6 +54,6 @@ int main() {
             strings[j] = 1;
         }
         cout << "Скорочений рядок: " << j << endl;
-
+    }
     return 0;
 }
