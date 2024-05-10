@@ -34,11 +34,11 @@ int main() {
     cout << "Введіть довжину рядка: ";
     cin >> length;
 
-    string* shortenedStrings = string[size];
+    string* shortenedStrings = new string[size];
 
     for (int i = 0; i < size; ++i) {
-            shortenedStrings[i] = shortenString(strings[i], length);
-        }
+    	shortenedStrings[i] = shortenString(strings[i], length);
+    }
 
     delete[] strings;
     delete[] shortenedStrings;
