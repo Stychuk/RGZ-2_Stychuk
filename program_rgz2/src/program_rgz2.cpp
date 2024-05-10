@@ -40,10 +40,11 @@ int main() {
     cin >> size;
     cout << "Введіть довжину рядка для скорочення: ";
     cin >> length;
+    cin.ignore(); // очищення буфер вводу
     for (int i = 0; i < size; ++i) {
         string str;
         cout << "Введіть рядок: ";
-        cin >> str;
+        getline(cin, str);  // зчитування рядка з пробілами та іншими спеціальними символами
         // скорочення рядка
         string j = shortenString(str, length);
         // якщо скорочений рядок вже існує, додаємо до нього номер
