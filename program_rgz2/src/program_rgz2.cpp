@@ -58,6 +58,12 @@ int main() {
 
     string* shortenedStrings = shortenStrings(strings, size, length); // виклик функції для скорочення рядків
 
+    // виведення скорочених рядків у консоль
+    cout << "Скорочені рядки:" << endl;
+    for (int i = 0; i < size; ++i) {
+        cout << "Рядок " << i + 1 << ": " << shortenedStrings[i] << endl;
+    }
+
     delete[] strings;
     delete[] shortenedStrings;
 
