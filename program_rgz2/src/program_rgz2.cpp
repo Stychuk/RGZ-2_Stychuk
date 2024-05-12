@@ -9,9 +9,7 @@
 #include <iostream>
 #include <map>
 #include <string>
-
 using namespace std;
-
 // Функція для скорочення рядка до заданої довжини
 string shortenString(const string& str, int length) {
     if (length < 2) {
@@ -31,7 +29,6 @@ string shortenString(const string& str, int length) {
     // повернення скороченого рядка
     return str.substr(0, length - dots.length()) + dots;
 }
-
 int main() {
     // map для зберігання унікальних скорочених рядків
     map<string, int> strings;
@@ -40,10 +37,11 @@ int main() {
     cin >> size;
     cout << "Введіть довжину рядка для скорочення: ";
     cin >> length;
+    cin.ignore(); // очищення буфер вводу
     for (int i = 0; i < size; ++i) {
         string str;
         cout << "Введіть рядок: ";
-        cin >> str;
+        getline(cin, str);  // зчитування рядка з пробілами та іншими спеціальними символами
         // скорочення рядка
         string j = shortenString(str, length);
         // якщо скорочений рядок вже існує, додаємо до нього номер
@@ -55,5 +53,6 @@ int main() {
         }
         cout << "Скорочений рядок: " << j << endl;
     }
+    system("pause");
     return 0;
 }
